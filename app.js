@@ -72,3 +72,41 @@ app.get("/time", (req, res) => {
   res.send(data);
   lastHitTime = timeNow;
 });
+
+// ? Promises and Fetch
+const fetchData = async () => {
+  try {
+    const response = await fetch("https://pokeapi.co/api/v2/pokemon/pikachu");
+    const data = await response.json();
+    console.log(data.name);
+    console.log(data.forms[0].url);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+fetchData();
+
+// Cats example
+const fetchCatData = async () => {
+  try {
+    // GET request to Express back-end -> first Promise
+    const response = await fetch("http://localhost:3000/cats");
+
+    // Error handling for server response
+    if (!response.ok) {
+      throw new Error("Invalid response from server");
+    }
+
+    // Second Promise -> runs if first is fulfilled
+    const catData = await response.json();
+    console.log(catData);
+    return catData;
+
+    // Deals with rejected requests and errors. Runs if either Promise rejected
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+fetchCatData();
